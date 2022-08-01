@@ -1,0 +1,15 @@
+@{
+  Layout = "_Layout";
+}
+
+<h2>Are you sure you want to delete @Model.Name</h2>
+
+@using (Html.BeginForm())
+{
+  <input type="submit" value="Delete" />
+}
+
+<hr />
+<p>@Html.ActionLink("Back to Department", "Details", new { id = @Model.DepartmentId })</p>
+<p>@Html.ActionLink("Back to Department List", "Index")</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>
