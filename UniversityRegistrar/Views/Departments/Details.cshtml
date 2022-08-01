@@ -1,0 +1,12 @@
+@{
+  Layout = "_Layout";
+}
+
+@model UniversityRegistrar.Models.Department;
+
+<h2>Department: @Model.Name</h2>
+
+<hr />
+<p>@Html.ActionLink("Edit Department Name", "Edit", new { id = Model.DepartmentId })</p>
+<p>@Html.ActionLink("Back to Department List", "Index")</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

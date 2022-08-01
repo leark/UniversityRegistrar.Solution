@@ -35,5 +35,25 @@ namespace UniversityRegistrar.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
+    public ActionResult Details(int id)
+    {
+      Department department = _db.Departments.FirstOrDefault(d => d.DepartmentId == id);
+      return View(department);
+    }
+
+    public ActionResult Edit(int id)
+    {
+      var thisDepartment = _db.Departments.FirstOrDefault(department => department.DepartmentId == id);
+      return View(thisDepartment);
+    }
+
+    [HttpPost]
+    public ActionResult Edit(Department department)
+    {
+      _db.Entry(department).State = EntityState.Modified;
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
   }
 }
