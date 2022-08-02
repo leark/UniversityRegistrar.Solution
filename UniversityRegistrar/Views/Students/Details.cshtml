@@ -1,0 +1,14 @@
+@{
+  Layout = "_Layout";
+}
+@using UniversityRegistrar.Models
+@model (Student student, Department department)
+
+<h2>Student: @Model.student.Name</h2>
+<h2>Department: @Model.department.Name </h2>
+
+<hr />
+<p>@Html.ActionLink("Edit Student Name", "Edit", new { id = Model.student.StudentId })</p>
+<p>@Html.ActionLink("Delete Student", "Delete", new { id = Model.student.StudentId })</p>
+<p>@Html.ActionLink("Back to Student List", "Index")</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

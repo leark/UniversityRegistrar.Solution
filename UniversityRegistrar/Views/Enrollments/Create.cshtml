@@ -1,0 +1,25 @@
+@{
+  Layout = "_Layout";
+}
+
+@model UniversityRegistrar.Models.Enrollment
+
+<h2>Add a enrollment</h2>
+
+@using (Html.BeginForm())
+{
+  <div class="form-group">
+    @Html.LabelFor(model => model.Course)
+    @Html.DropDownList("CourseId", ViewBag.CourseId, null, new { required = "required" })
+  </div>
+
+  <div class="form-group">
+    @Html.LabelFor(model => model.Student)
+    @Html.DropDownList("StudentId", ViewBag.StudentId, null, new { required = "required" })
+  </div>
+
+  <input type="submit" value="Add enrollment" />
+}
+
+<p>@Html.ActionLink("Back to Enrollment List", "Index")</p>
+<p>@Html.ActionLink("Go Back Home", "Index", "Home")</p>
