@@ -5,21 +5,57 @@
 @using UniversityRegistrar.Models;
 
 <h1>Welcome University Registrar Enrollment Page!</h1>
-
+<hr />
 @if (@Model.Count == 0)
 {
   <h3>No enrollments have been added yet.</h3>
 }
 else
 {
-  <ul>
-    @foreach (Enrollment enrollment in Model)
+  Dictionary<string, List<string>> dic = new Dictionary<string, List<string>> ();
+  foreach (Enrollment enrollment in Model)
+  {
+    string courseName = enrollment.Course.Name;
+    string studentName = enrollment.Student.Name;
+    if (dic.ContainsKey(courseName))
     {
-      <li>@Html.ActionLink($"{enrollment.EnrollmentId}", "Details", new { id = enrollment.EnrollmentId })
-      </li>
+      dic[courseName].Add(studentName);
     }
-  </ul>
-}
+    else
+    {
+      List<string> studentList = new List<string>();
+      studentList.Add(studentName);
+      dic.Add(courseName, studentList);
+    }
+  }
 
+  foreach (KeyValuePair<string, List<string>> kvp in dic)
+  {
+    <p><strong>@kvp.Key</strong></p>
+    <ol>
+    @foreach (string name in kvp.Value)
+    {
+      <li>@name</li>
+    }
+    </ol>
+  }
+}
+<hr />
 <p>@Html.ActionLink("Add New Enrollment", "Create")</p>
 <p>@Html.ActionLink("Go Back Home", "Index", "Home")</p>
+
+@*
+
+create Dictionary of <coursename, list of students>
+loop through Model of enrollments
+  if coursename doesn't exist in Dictionary
+    create empty list of students
+    add student to list
+    add to dictionary <coursename, lists>
+  else
+    add student to list
+
+loop through dictionary
+  print list of students 
+
+*@

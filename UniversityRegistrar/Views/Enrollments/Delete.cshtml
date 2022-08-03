@@ -1,0 +1,15 @@
+@{
+  Layout = "_Layout";
+}
+
+<h4>Are you sure you want to drop @Model.Student.Name from @Model.Course.Name</h4>
+
+@using (Html.BeginForm())
+{
+  <input type="submit" value="Drop" />
+}
+
+<hr />
+<p>@Html.ActionLink("Back to Enrollment", "Details", new { id = @Model.EnrollmentId })</p>
+<p>@Html.ActionLink("Back to Enrollment List", "Index")</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

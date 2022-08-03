@@ -20,13 +20,6 @@ namespace UniversityRegistrar.Controllers
     {
       ViewBag.PageTitle = "View All Enrollments";
       List<Enrollment> model = _db.Enrollments.ToList();
-
-      // var thisEnrollment = _db.Enrollments.FirstOrDefault(e => e.CourseId == courseId && e.StudentId == studentId);
-      // var thisCourse = _db.Courses.FirstOrDefault(course => course.CourseId == thisEnrollment.CourseId);
-      // var thisStudent = _db.Students.FirstOrDefault(student => student.StudentId == thisEnrollment.StudentId);
-      
-      // (Enrollment enrollment, Course course, Student student) model = (thisEnrollment, thisCourse, thisStudent);
-
       return View(model);
     }
 
@@ -49,15 +42,6 @@ namespace UniversityRegistrar.Controllers
         _db.SaveChanges();
       }
       return RedirectToAction("Index");
-      /*
-      maybe?
-      if (inside student details)
-        return redirecttoaction(details, students)
-      else if (inside course details)
-        return redirecttoaction(details, courses)
-      else
-        return redirecttoaction(index)
-      */
     }
 
     public ActionResult Details(int id)
@@ -68,6 +52,21 @@ namespace UniversityRegistrar.Controllers
       
       (Enrollment enrollment, Course course, Student student) model = (thisEnrollment, thisCourse, thisStudent);
       return View(model);
+    }
+
+    public ActionResult Delete(int id)
+    {
+      Enrollment enrollment = _db.Enrollments.FirstOrDefault(e => e.EnrollmentId == id);
+      return View(enrollment);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public ActionResult Deleted(int id)
+    {
+      Enrollment enrollment = _db.Enrollments.FirstOrDefault(e => e.EnrollmentId == id);
+      _db.Enrollments.Remove(enrollment);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
   }
 }
