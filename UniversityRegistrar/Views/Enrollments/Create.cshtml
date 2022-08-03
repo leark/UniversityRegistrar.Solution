@@ -5,7 +5,7 @@
 @model UniversityRegistrar.Models.Enrollment
 
 <h2>Add a enrollment</h2>
-
+<hr />
 @using (Html.BeginForm())
 {
   <div class="mb-3">
@@ -20,6 +20,6 @@
 
   <input type="submit" value="Add enrollment" />
 }
-
+<hr />
 <p>@Html.ActionLink("Back to Enrollment List", "Index")</p>
 <p>@Html.ActionLink("Go Back Home", "Index", "Home")</p>
