@@ -40,16 +40,30 @@ namespace UniversityRegistrar.Controllers
 
     public ActionResult Details(int id)
     {
-      var thisStudent = _db.Students
-                          .Include(student => student.JoinEntities)
-                          .ThenInclude(join => join.Course)
-                          .FirstOrDefault(student => student.StudentId == id);
+      var thisStudent = _db.Students.FirstOrDefault(student => student.StudentId == id);
+      // .Include(student => student.JoinEntities)
+      // .ThenInclude(join => join.Course)
+      // .FirstOrDefault(student => student.StudentId == id);
 
       var thisDepartment = _db.Departments.FirstOrDefault(dataRow => dataRow.DepartmentId == thisStudent.DepartmentId);
+      
       ViewBag.CourseId = new SelectList(_db.Courses, "CourseId", "Name");
 
       (Student student, Department department) model = (thisStudent, thisDepartment);
       return View(model);
+    }
+
+    [HttpPost]
+    public ActionResult AddCourseToStudent(Enrollment enrollment)
+    {
+      if (_db.Enrollments.FirstOrDefault(
+              e => e.StudentId == enrollment.StudentId && 
+                    e.CourseId == enrollment.CourseId) == null)
+      {
+        _db.Enrollments.Add(enrollment);
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Details", new { id = enrollment.StudentId });
     }
 
     public ActionResult Edit(int id)

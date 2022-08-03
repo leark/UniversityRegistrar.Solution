@@ -1,6 +1,5 @@
 @{
   Layout = "_Layout";
-  Course course = new Course();
 }
 @using UniversityRegistrar.Models
 @model (Student student, Department department)
@@ -23,7 +22,7 @@ else
 }
 <hr />
 <p><strong>Enroll @Model.student.Name to...</strong></p>
-@using (Html.BeginForm("Create", "Enrollments"))
+@using (Html.BeginForm("AddCourseToStudent", "Students"))
 {
   @Html.Hidden("StudentId", @Model.student.StudentId)
   <div class="mb-3">

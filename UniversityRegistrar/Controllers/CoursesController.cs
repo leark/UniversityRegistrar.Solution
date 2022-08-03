@@ -44,8 +44,39 @@ namespace UniversityRegistrar.Controllers
       var thisDepartment = _db.Departments.FirstOrDefault(dataRow => dataRow.DepartmentId == thisCourse.DepartmentId);
       
       (Course course, Department department) model = (thisCourse, thisDepartment);
+      ViewBag.StudentId = new SelectList(_db.Students, "StudentId", "Name");
       return View(model);
     }
+
+    [HttpPost]
+    public ActionResult AddStudentToCourse(Enrollment enrollment)
+    {
+      if (_db.Enrollments.FirstOrDefault(
+              e => e.StudentId == enrollment.StudentId && 
+                    e.CourseId == enrollment.CourseId) == null)
+      {
+        _db.Enrollments.Add(enrollment);
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Details", new { id = enrollment.CourseId });
+    }
+
+    public ActionResult Edit(int id)
+    {
+      Course courseFound = _db.Courses.FirstOrDefault(course => course.CourseId == id);
+      ViewBag.PageTitle = "Edit Course Name";
+      return View(courseFound);
+    }
+
+    [HttpPost]
+    public ActionResult Edit(Course course)
+    {
+      _db.Entry(course).State = EntityState.Modified;
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    
   }
 }
 

@@ -48,7 +48,16 @@ namespace UniversityRegistrar.Controllers
         _db.Enrollments.Add(enrollment);
         _db.SaveChanges();
       }
-      return RedirectToAction("Details", "Students", new { id = enrollment.StudentId });
+      return RedirectToAction("Index");
+      /*
+      maybe?
+      if (inside student details)
+        return redirecttoaction(details, students)
+      else if (inside course details)
+        return redirecttoaction(details, courses)
+      else
+        return redirecttoaction(index)
+      */
     }
 
     public ActionResult Details(int id)
