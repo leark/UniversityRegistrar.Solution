@@ -1,14 +1,39 @@
 @{
   Layout = "_Layout";
+  Course course = new Course();
 }
 @using UniversityRegistrar.Models
 @model (Student student, Department department)
 
+<hr />
 <h2>Student: @Model.student.Name</h2>
 <h2>Department: @Model.department.Name </h2>
-
 <hr />
-<p>@Html.ActionLink("Edit Student Name", "Edit", new { id = Model.student.StudentId })</p>
+@if (Model.student.JoinEntities.Count == 0)
+{
+  <h3>@Model.student.Name has not signed up for any courses.</h3>
+}
+else
+{
+  <p><strong>@Model.student.Name has signed up for...</strong></p>
+  @foreach (var enrollment in Model.student.JoinEntities)
+  {
+    <p class="ms-3">@enrollment.Course.Name | @enrollment.Course.Number</p>
+  }
+}
+<hr />
+<p><strong>Enroll @Model.student.Name to...</strong></p>
+@using (Html.BeginForm("Create", "Enrollments"))
+{
+  @Html.Hidden("StudentId", @Model.student.StudentId)
+  <div class="mb-3">
+    @Html.Label("Course")
+    @Html.DropDownList("CourseId", ViewBag.CourseId, null, new { required = "required" })
+  </div>
+  <input type="submit" value="Add Course" />
+}
+<hr />
+<p>@Html.ActionLink("Edit Student", "Edit", new { id = Model.student.StudentId })</p>
 <p>@Html.ActionLink("Delete Student", "Delete", new { id = Model.student.StudentId })</p>
 <p>@Html.ActionLink("Back to Student List", "Index")</p>
 <p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

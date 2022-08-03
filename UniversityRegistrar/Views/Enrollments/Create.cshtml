@@ -8,12 +8,12 @@
 
 @using (Html.BeginForm())
 {
-  <div class="form-group">
+  <div class="mb-3">
     @Html.LabelFor(model => model.Course)
     @Html.DropDownList("CourseId", ViewBag.CourseId, null, new { required = "required" })
   </div>
 
-  <div class="form-group">
+  <div class="mb-3">
     @Html.LabelFor(model => model.Student)
     @Html.DropDownList("StudentId", ViewBag.StudentId, null, new { required = "required" })
   </div>

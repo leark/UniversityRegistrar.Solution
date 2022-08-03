@@ -40,11 +40,47 @@ namespace UniversityRegistrar.Controllers
 
     public ActionResult Details(int id)
     {
-      var thisStudent = _db.Students.FirstOrDefault(student => student.StudentId == id);
+      var thisStudent = _db.Students
+                          .Include(student => student.JoinEntities)
+                          .ThenInclude(join => join.Course)
+                          .FirstOrDefault(student => student.StudentId == id);
+
       var thisDepartment = _db.Departments.FirstOrDefault(dataRow => dataRow.DepartmentId == thisStudent.DepartmentId);
-      
+      ViewBag.CourseId = new SelectList(_db.Courses, "CourseId", "Name");
+
       (Student student, Department department) model = (thisStudent, thisDepartment);
       return View(model);
+    }
+
+    public ActionResult Edit(int id)
+    {
+      Student studentFound = _db.Students.FirstOrDefault(student => student.StudentId == id);
+      ViewBag.DepartmentId = new SelectList(_db.Departments, "DepartmentId", "Name");
+      ViewBag.PageTitle = "Edit Student";
+      return View(studentFound);
+    }
+
+    [HttpPost]
+    public ActionResult Edit(Student student)
+    {
+      _db.Entry(student).State = EntityState.Modified;
+      _db.SaveChanges();
+      return RedirectToAction("Index");
+    }
+
+    public ActionResult Delete(int id)
+    {
+      Student student = _db.Students.FirstOrDefault(s => s.StudentId == id);
+      return View(student);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    public ActionResult Deleted(int id)
+    {
+      Student student = _db.Students.FirstOrDefault(s => s.StudentId == id);
+      _db.Students.Remove(student);
+      _db.SaveChanges();
+      return RedirectToAction("Index");
     }
   }
 }

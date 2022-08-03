@@ -4,22 +4,22 @@
 
 @model UniversityRegistrar.Models.Student
 
-<h2>Add a student</h2>
+<h2>Edit Student</h2>
 
 @using (Html.BeginForm())
 {
+  @Html.HiddenFor(model => model.StudentId)
   <div class="mb-3">
     @Html.LabelFor(model => model.Name)
-    @Html.TextBoxFor(model => model.Name, new { required = "required" })
+    @Html.EditorFor(model => model.Name)
   </div>
-
   <div class="mb-3">
     @Html.LabelFor(model => model.Department)
     @Html.DropDownList("DepartmentId", ViewBag.DepartmentId, null, new { required = "required" })
   </div>
 
-  <input type="submit" value="Add student" />
+  <input class="btn-primary" type="submit" value="Save" />
 }
 
 <p>@Html.ActionLink("Back to Student List", "Index")</p>
-<p>@Html.ActionLink("Go Back Home", "Index", "Home")</p>
+<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>

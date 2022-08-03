@@ -41,9 +41,14 @@ namespace UniversityRegistrar.Controllers
     [HttpPost]
     public ActionResult Create(Enrollment enrollment)
     {
-      _db.Enrollments.Add(enrollment);
-      _db.SaveChanges();
-      return RedirectToAction("Index");
+      if (_db.Enrollments.FirstOrDefault(
+              e => e.StudentId == enrollment.StudentId && 
+                    e.CourseId == enrollment.CourseId) == null)
+      {
+        _db.Enrollments.Add(enrollment);
+        _db.SaveChanges();
+      }
+      return RedirectToAction("Details", "Students", new { id = enrollment.StudentId });
     }
 
     public ActionResult Details(int id)
