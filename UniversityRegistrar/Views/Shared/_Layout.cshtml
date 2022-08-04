@@ -9,7 +9,8 @@
   <link rel="stylesheet" href="~/css/styles.css">
 </head>
 
-<body class="container">
+<body>
+  @await Html.PartialAsync("Header")
   @RenderBody()
   @await Html.PartialAsync("Footer")
 </body>
