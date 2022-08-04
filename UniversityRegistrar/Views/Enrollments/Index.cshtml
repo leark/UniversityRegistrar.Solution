@@ -4,45 +4,47 @@
 
 @using UniversityRegistrar.Models;
 
-<h1>Welcome University Registrar Enrollment Page!</h1>
-<hr />
-@if (@Model.Count == 0)
-{
-  <h3>No enrollments have been added yet.</h3>
-}
-else
-{
-  Dictionary<string, List<string>> dic = new Dictionary<string, List<string>> ();
-  foreach (Enrollment enrollment in Model)
+<div class="container">
+  <h1>Welcome University Registrar Enrollment Page!</h1>
+  <hr />
+  @if (@Model.Count == 0)
   {
-    string courseName = enrollment.Course.Name;
-    string studentName = enrollment.Student.Name;
-    if (dic.ContainsKey(courseName))
-    {
-      dic[courseName].Add(studentName);
-    }
-    else
-    {
-      List<string> studentList = new List<string>();
-      studentList.Add(studentName);
-      dic.Add(courseName, studentList);
-    }
+    <h3>No enrollments have been added yet.</h3>
   }
+  else
+  {
+    Dictionary<string, List<string>> dic = new Dictionary<string, List<string>> ();
+    foreach (Enrollment enrollment in Model)
+    {
+      string courseName = enrollment.Course.Name;
+      string studentName = enrollment.Student.Name;
+      if (dic.ContainsKey(courseName))
+      {
+        dic[courseName].Add(studentName);
+      }
+      else
+      {
+        List<string> studentList = new List<string>();
+        studentList.Add(studentName);
+        dic.Add(courseName, studentList);
+      }
+    }
 
-  foreach (KeyValuePair<string, List<string>> kvp in dic)
-  {
-    <p><strong>@kvp.Key</strong></p>
-    <ol>
-    @foreach (string name in kvp.Value)
+    foreach (KeyValuePair<string, List<string>> kvp in dic)
     {
-      <li>@name</li>
+      <p><strong>@kvp.Key</strong></p>
+      <ol>
+      @foreach (string name in kvp.Value)
+      {
+        <li>@name</li>
+      }
+      </ol>
     }
-    </ol>
   }
-}
-<hr />
-<p>@Html.ActionLink("Add New Enrollment", "Create")</p>
-<p>@Html.ActionLink("Go Back Home", "Index", "Home")</p>
+  <hr />
+  <p>@Html.ActionLink("Add New Enrollment", "Create")</p>
+</div>
+
 
 @*
 
