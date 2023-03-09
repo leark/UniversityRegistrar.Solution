@@ -4,38 +4,43 @@
 @using UniversityRegistrar.Models
 @model (Course course, Department department)
 
-<hr />
-<h2>Course: @Model.course.Name</h2>
-<h2>Course #: @Model.course.Number</h2>
-<h2>Department: @Model.department.Name</h2>
-<hr />
-
-  @if (Model.course.JoinEntities.Count == 0)
-  {
-    <h3>@Model.course.Name does not have any students signed up yet</h3>
-  }
-  else {
-  <p><strong>Students signed up for @Model.course.Name </strong></p>
-  <ul>
-    @foreach (var enrollment in Model.course.JoinEntities)
-    {
-        <li>@enrollment.Student.Name</li>
-    }
-  </ul>
-  }
-<hr />
-<p><strong>Add student to course</strong></p>
-@using (Html.BeginForm("AddStudentToCourse", "Courses"))
-{
-  @Html.Hidden("CourseId", @Model.course.CourseId)
-  <div class="mb-3">
-    @Html.Label("Student")
-    @Html.DropDownList("StudentId", ViewBag.StudentId, null, new { required = "required" })
+<div class="container">
+  <hr />
+  <div class="d-flex flex-column align-items-center">
+    <h2>Course: @Model.course.Name</h2>
+    <h2>Course #: @Model.course.Number</h2>
+    <h2>Department: @Model.department.Name</h2>
   </div>
-  <input type="submit" value="Add Student" />
-}
-<hr />
-<p>@Html.ActionLink("Edit Course Name", "Edit", new { id = Model.course.CourseId })</p>
-<p>@Html.ActionLink("Delete Course", "Delete", new { id = Model.course.CourseId })</p>
-<p>@Html.ActionLink("Back to Course List", "Index")</p>
-<p>@Html.ActionLink("Back to Home", "Index", "Home")</p>
+  <hr />
+  <div class="d-flex flex-column align-items-center">
+      @if (Model.course.JoinEntities.Count == 0)
+      {
+        <h3>@Model.course.Name does not have any students signed up yet</h3>
+      }
+      else {
+      <p><strong>Students signed up for @Model.course.Name </strong></p>
+      <ul>
+        @foreach (var enrollment in Model.course.JoinEntities)
+        {
+            <li>@enrollment.Student.Name</li>
+        }
+      </ul>
+      }
+    <hr />
+    <p><strong>Add student to course</strong></p>
+    @using (Html.BeginForm("AddStudentToCourse", "Courses"))
+    {
+      @Html.Hidden("CourseId", @Model.course.CourseId)
+      <div class="mb-3">
+        @Html.Label("Student")
+        @Html.DropDownList("StudentId", ViewBag.StudentId, null, new { required = "required" })
+      </div>
+      <input type="submit" value="Add Student" />
+    }
+    <hr />
+    <p>@Html.ActionLink("Edit Course Name", "Edit", new { id = Model.course.CourseId })</p>
+    <p>@Html.ActionLink("Delete Course", "Delete", new { id = Model.course.CourseId })</p>
+    <p>@Html.ActionLink("Back to Course List", "Index")</p>
+    <p>@Html.ActionLink("Back to Home", "Index", "Home")</p>
+  </div>
+</div>
